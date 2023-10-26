@@ -32,7 +32,8 @@ sel_volleyball <- volleyball %>% select(TestId, Date, Time, `Athlete Code`, `L|R
 
 
 ```{r}
-#sel_m_basketball <- sel_m_basketball %>% mutate(Symmetry Index = (max(`L|R Peak Propulsive Force`) - min(`L|R Peak Propulsive Force`)) / (max(`L|R Peak Propulsive Force`) + min(`L|R Peak Propulsive Force`))
+sel_football$`L|R Avg. Landing Force` <- as.numeric(sel_football$`L|R Avg. Landing Force`)
+sel_football$`L|R Peak Landing Force` <- as.numeric(sel_football$`L|R Peak Landing Force`)
 
 
 ```
