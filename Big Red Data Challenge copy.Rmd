@@ -21,6 +21,35 @@ volleyball <- read_csv('VB 9-18-23_10-9-23.csv')
 
 
 ```{r}
+# Asymmetry from another method as another possible dataset to bring in
+
+for (i in 7:length(football)) {
+  football[[i]] <- as.numeric(football[[i]])
+}
+
+for (i in 7:length(men_basketball)) {
+  men_basketball[[i]] <- as.numeric(men_basketball[[i]])
+}
+
+for (i in 7:length(women_basketball)) {
+  women_basketball[[i]] <- as.numeric(women_basketball[[i]])
+}
+
+for (i in 7:length(volleyball)) {
+  volleyball[[i]] <- as.numeric(volleyball[[i]])
+}
+```
+
+
+```{r}
+write.csv(football, "/Users/cole_sheegs/Big Red Data Challenge/Big Red Data Repo/football_data.csv")
+write.csv(men_basketball, "/Users/cole_sheegs/Big Red Data Challenge/Big Red Data Repo/men_basketball_data.csv")
+write.csv(women_basketball, "/Users/cole_sheegs/Big Red Data Challenge/Big Red Data Repo/women_basketball_data.csv")
+write.csv(volleyball, "/Users/cole_sheegs/Big Red Data Challenge/Big Red Data Repo/volleyball_data.csv")
+```
+
+
+```{r}
 sel_w_basketball <- women_basketball %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg. Propulsive Force`, `L|R Peak Propulsive Force`, `L|R Propulsive Impulse Index`, `L|R Avg. Landing Force`, `L|R Peak Landing Force`, `L|R Landing Impulse Index`)
 
 sel_m_basketball <- men_basketball %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg. Propulsive Force`, `L|R Peak Propulsive Force`, `L|R Propulsive Impulse Index`, `L|R Avg. Landing Force`, `L|R Peak Landing Force`, `L|R Landing Impulse Index`)
@@ -30,41 +59,81 @@ sel_football <- football %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg
 sel_volleyball <- volleyball %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg. Propulsive Force`, `L|R Peak Propulsive Force`, `L|R Propulsive Impulse Index`, `L|R Avg. Landing Force`, `L|R Peak Landing Force`, `L|R Landing Impulse Index`)
 ```
 
-
-```{r}
-sel_football$`L|R Avg. Landing Force` <- as.numeric(sel_football$`L|R Avg. Landing Force`)
-sel_football$`L|R Peak Landing Force` <- as.numeric(sel_football$`L|R Peak Landing Force`)
-
-
-```
-
 L/R Peak Propulsive Force, L/R Peak Landing Force, Landing Impulse Index, Symmetry Index (High-Low)/Total*100 (%)
 Asymmetry indexes over 10% may show increased disposition to ACL injury.
 
 ```{r}
 sel_m_basketball %>% ggplot(aes(x = `L|R Avg. Landing Force`)) + geom_boxplot()
 sel_m_basketball %>% ggplot(aes(x = `L|R Peak Landing Force`)) + geom_boxplot()
-#men_basketball %>% ggplot(aes(x = `L|R Landing Impulse Index`)) + geom_histogram()
+sel_m_basketball %>% ggplot(aes(x = `L|R Landing Impulse Index`)) + geom_boxplot()
 
-men_basketball %>% ggplot(aes(x = `L|R Avg. Propulsive Force`)) + geom_boxplot()
-men_basketball %>% ggplot(aes(x = `L|R Peak Propulsive Force`)) + geom_boxplot()
-men_basketball %>% ggplot(aes(x = `L|R Propulsive Impulse Index`)) + geom_boxplot()
+sel_m_basketball %>% ggplot(aes(x = `L|R Avg. Propulsive Force`)) + geom_boxplot()
+sel_m_basketball %>% ggplot(aes(x = `L|R Peak Propulsive Force`)) + geom_boxplot()
+sel_m_basketball %>% ggplot(aes(x = `L|R Propulsive Impulse Index`)) + geom_boxplot()
 ```
 
 
 ```{r}
-"""mean(football$`L|R Braking Impulse Index`)
 mean(football$`L|R Peak Propulsive Force`)
+mean(football$`L|R Propulsive Impulse Index`)
 
-mean(football$`L|R Peak Braking Force`, na.rm = TRUE)
-mean(football$`L|R Landing Impulse Index`, na.rm = TRUE)"""
+mean(football$`L|R Peak Landing Force`, na.rm = TRUE)
+mean(football$`L|R Landing Impulse Index`, na.rm = TRUE)
 ```
-
 
 
 ```{r}
+football %>% ggplot(aes(x = `Right Force at Peak Propulsive Force`, y = `Left Force at Peak Propulsive Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
 
+cor.test(football$`Right Force at Peak Propulsive Force`, football$`Left Force at Peak Propulsive Force`)
 
+football %>% ggplot(aes(x = `Right Force at Peak Landing Force`, y = `Left Force at Peak Landing Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
+
+cor.test(football$`Right Force at Peak Landing Force`, football$`Left Force at Peak Landing Force`)
+
+diff_between_cor_foot <- 0.9123277 - 0.6290015
+print(diff_between_cor_foot)
 ```
 
+
+```{r}
+men_basketball %>% ggplot(aes(x = `Right Force at Peak Propulsive Force`, y = `Left Force at Peak Propulsive Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
+
+cor.test(men_basketball$`Right Force at Peak Propulsive Force`, men_basketball$`Left Force at Peak Propulsive Force`)
+
+men_basketball %>% ggplot(aes(x = `Right Force at Peak Landing Force`, y = `Left Force at Peak Landing Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
+
+cor.test(men_basketball$`Right Force at Peak Landing Force`, men_basketball$`Left Force at Peak Landing Force`)
+
+diff_between_cor_mbb <- 0.7938649 - 0.6468983
+print(diff_between_cor_mbb)
+```
+
+
+```{r}
+women_basketball %>% ggplot(aes(x = `Right Force at Peak Propulsive Force`, y = `Left Force at Peak Propulsive Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm) + xlim(NA, 1750) + ylim(NA, 1750)
+
+cor.test(women_basketball$`Right Force at Peak Propulsive Force`, women_basketball$`Left Force at Peak Propulsive Force`)
+
+women_basketball %>% ggplot(aes(x = `Right Force at Peak Landing Force`, y = `Left Force at Peak Landing Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm) + xlim(NA, 3500) + ylim(NA, 3500)
+
+cor.test(women_basketball$`Right Force at Peak Landing Force`, women_basketball$`Left Force at Peak Landing Force`)
+
+diff_between_cor_wbb <- 0.701476 - 0.5495308
+print(diff_between_cor_wbb)
+```
+
+
+```{r}
+volleyball %>% ggplot(aes(x = `Right Force at Peak Propulsive Force`, y = `Left Force at Peak Propulsive Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
+
+cor.test(volleyball$`Right Force at Peak Propulsive Force`, volleyball$`Left Force at Peak Propulsive Force`)
+
+volleyball %>% ggplot(aes(x = `Right Force at Peak Landing Force`, y = `Left Force at Peak Landing Force`)) + geom_point(alpha = .3) + geom_smooth(method = lm)
+
+cor.test(volleyball$`Right Force at Peak Landing Force`, volleyball$`Left Force at Peak Landing Force`)
+
+diff_between_cor_volley <- 0.8798827 - -0.02561232
+print(diff_between_cor_volley)
+```
 
