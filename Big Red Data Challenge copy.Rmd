@@ -59,17 +59,55 @@ sel_football <- football %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg
 sel_volleyball <- volleyball %>% select(TestId, Date, Time, `Athlete Code`, `L|R Avg. Propulsive Force`, `L|R Peak Propulsive Force`, `L|R Propulsive Impulse Index`, `L|R Avg. Landing Force`, `L|R Peak Landing Force`, `L|R Landing Impulse Index`)
 ```
 
+
+```{r}
+football <- football %>% mutate(L_R_Diff_Peak_Propulsive = abs(`Left Force at Peak Propulsive Force` - `Right Force at Peak Propulsive Force`), L_R_Total_Peak_Propulsive = `Left Force at Peak Propulsive Force` + `Right Force at Peak Propulsive Force`,  Peak_Propulsive_Asymmetry_Index = (L_R_Diff_Peak_Propulsive/L_R_Total_Peak_Propulsive) * 100)
+
+men_basketball <- men_basketball %>% mutate(L_R_Diff_Peak_Propulsive = abs(`Left Force at Peak Propulsive Force` - `Right Force at Peak Propulsive Force`), L_R_Total_Peak_Propulsive = `Left Force at Peak Propulsive Force` + `Right Force at Peak Propulsive Force`,  Peak_Propulsive_Asymmetry_Index = (L_R_Diff_Peak_Propulsive/L_R_Total_Peak_Propulsive) * 100)
+
+women_basketball <- women_basketball %>% mutate(L_R_Diff_Peak_Propulsive = abs(`Left Force at Peak Propulsive Force` - `Right Force at Peak Propulsive Force`), L_R_Total_Peak_Propulsive = `Left Force at Peak Propulsive Force` + `Right Force at Peak Propulsive Force`,  Peak_Propulsive_Asymmetry_Index = (L_R_Diff_Peak_Propulsive/L_R_Total_Peak_Propulsive) * 100)
+
+volleyball <- volleyball %>% mutate(L_R_Diff_Peak_Propulsive = abs(`Left Force at Peak Propulsive Force` - `Right Force at Peak Propulsive Force`), L_R_Total_Peak_Propulsive = `Left Force at Peak Propulsive Force` + `Right Force at Peak Propulsive Force`,  Peak_Propulsive_Asymmetry_Index = (L_R_Diff_Peak_Propulsive/L_R_Total_Peak_Propulsive) * 100)
+```
+
+
+```{r}
+football %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Propulsive_Asymmetry_Index))
+men_basketball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Propulsive_Asymmetry_Index))
+women_basketball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Propulsive_Asymmetry_Index))
+volleyball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Propulsive_Asymmetry_Index))
+```
+
+
+```{r}
+football <- football %>% mutate(L_R_Diff_Peak_Landing = abs(`Left Force at Peak Landing Force` - `Right Force at Peak Landing Force`), L_R_Total_Peak_Landing = `Left Force at Peak Landing Force` + `Right Force at Peak Landing Force`,  Peak_Landing_Asymmetry_Index = (L_R_Diff_Peak_Landing/L_R_Total_Peak_Landing) * 100)
+
+men_basketball <- men_basketball %>% mutate(L_R_Diff_Peak_Landing = abs(`Left Force at Peak Landing Force` - `Right Force at Peak Landing Force`), L_R_Total_Peak_Landing = `Left Force at Peak Landing Force` + `Right Force at Peak Landing Force`,  Peak_Landing_Asymmetry_Index = (L_R_Diff_Peak_Landing/L_R_Total_Peak_Landing) * 100)
+
+women_basketball <- women_basketball %>% mutate(L_R_Diff_Peak_Landing = abs(`Left Force at Peak Landing Force` - `Right Force at Peak Landing Force`), L_R_Total_Peak_Landing = `Left Force at Peak Landing Force` + `Right Force at Peak Landing Force`,  Peak_Landing_Asymmetry_Index = (L_R_Diff_Peak_Landing/L_R_Total_Peak_Landing) * 100)
+
+volleyball <- volleyball %>% mutate(L_R_Diff_Peak_Landing = abs(`Left Force at Peak Landing Force` - `Right Force at Peak Landing Force`), L_R_Total_Peak_Landing = `Left Force at Peak Landing Force` + `Right Force at Peak Landing Force`,  Peak_Landing_Asymmetry_Index = (L_R_Diff_Peak_Landing/L_R_Total_Peak_Landing) * 100)
+```
+
+
+```{r}
+football %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Landing_Asymmetry_Index))
+men_basketball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Landing_Asymmetry_Index))
+women_basketball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Landing_Asymmetry_Index))
+volleyball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Landing_Asymmetry_Index))
+```
+
 L/R Peak Propulsive Force, L/R Peak Landing Force, Landing Impulse Index, Symmetry Index (High-Low)/Total*100 (%)
 Asymmetry indexes over 10% may show increased disposition to ACL injury.
 
 ```{r}
-sel_m_basketball %>% ggplot(aes(x = `L|R Avg. Landing Force`)) + geom_boxplot()
-sel_m_basketball %>% ggplot(aes(x = `L|R Peak Landing Force`)) + geom_boxplot()
-sel_m_basketball %>% ggplot(aes(x = `L|R Landing Impulse Index`)) + geom_boxplot()
+sel_football %>% ggplot(aes(x = `L|R Avg. Landing Force`)) + geom_histogram()
+sel_football %>% ggplot(aes(x = `L|R Peak Landing Force`)) + geom_histogram()
+sel_football %>% ggplot(aes(x = `L|R Landing Impulse Index`)) + geom_histogram()
 
-sel_m_basketball %>% ggplot(aes(x = `L|R Avg. Propulsive Force`)) + geom_boxplot()
-sel_m_basketball %>% ggplot(aes(x = `L|R Peak Propulsive Force`)) + geom_boxplot()
-sel_m_basketball %>% ggplot(aes(x = `L|R Propulsive Impulse Index`)) + geom_boxplot()
+sel_m_basketball %>% ggplot(aes(x = `L|R Avg. Propulsive Force`)) + geom_histogram()
+sel_m_basketball %>% ggplot(aes(x = `L|R Peak Propulsive Force`)) + geom_histogram()
+sel_m_basketball %>% ggplot(aes(x = `L|R Propulsive Impulse Index`)) + geom_histogram()
 ```
 
 
