@@ -97,8 +97,179 @@ women_basketball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_
 volleyball %>% group_by(`Athlete Code`) %>% summarize(mean_AI = mean(Peak_Landing_Asymmetry_Index))
 ```
 
+
+```{r}
+football <- football %>% mutate(L_R_Diff_Peak_Braking = abs(`Left Force at Peak Braking Force` - `Right Force at Peak Braking Force`), L_R_Total_Peak_Braking = `Left Force at Peak Landing Force` + `Right Force at Peak Landing Force`,  Peak_Braking_Asymmetry_Index = (L_R_Diff_Peak_Braking/L_R_Total_Peak_Braking) * 100)
+
+men_basketball <- men_basketball %>% mutate(L_R_Diff_Peak_Braking = abs(`Left Force at Peak Braking Force` - `Right Force at Peak Braking Force`), L_R_Total_Peak_Braking = `Left Force at Peak Braking Force` + `Right Force at Peak Braking Force`,  Peak_Braking_Asymmetry_Index = (L_R_Diff_Peak_Braking/L_R_Total_Peak_Braking) * 100)
+
+women_basketball <- women_basketball %>% mutate(L_R_Diff_Peak_Braking = abs(`Left Force at Peak Braking Force` - `Right Force at Peak Braking Force`), L_R_Total_Peak_Braking = `Left Force at Peak Braking Force` + `Right Force at Peak Braking Force`,  Peak_Braking_Asymmetry_Index = (L_R_Diff_Peak_Braking/L_R_Total_Peak_Braking) * 100)
+
+volleyball <- volleyball %>% mutate(L_R_Diff_Peak_Braking = abs(`Left Force at Peak Braking Force` - `Right Force at Peak Braking Force`), L_R_Total_Peak_Braking = `Left Force at Peak Braking Force` + `Right Force at Peak Braking Force`,  Peak_Braking_Asymmetry_Index = (L_R_Diff_Peak_Braking/L_R_Total_Peak_Braking) * 100)
+```
+
+
+```{r}
+cor.test(football$`Takeoff Velocity`, football$Peak_Landing_Asymmetry_Index)
+cor.test(men_basketball$`Takeoff Velocity`, men_basketball$Peak_Landing_Asymmetry_Index)
+cor.test(women_basketball$`Takeoff Velocity`, women_basketball$Peak_Landing_Asymmetry_Index)
+cor.test(volleyball$`Takeoff Velocity`, volleyball$Peak_Landing_Asymmetry_Index)
+```
+
+
+```{r}
+mean(football$`Jump Height`)
+mean(men_basketball$`Jump Height`)
+mean(women_basketball$`Jump Height`)
+mean(volleyball$`Jump Height`)
+```
+
+
+```{r}
+mean(football$Peak_Landing_Asymmetry_Index, na.rm = TRUE)
+mean(men_basketball$Peak_Landing_Asymmetry_Index)
+mean(women_basketball$Peak_Landing_Asymmetry_Index)
+mean(volleyball$Peak_Landing_Asymmetry_Index)
+```
+
+
+```{r}
+mean(football$Peak_Braking_Asymmetry_Index, na.rm = TRUE)
+mean(men_basketball$Peak_Braking_Asymmetry_Index)
+mean(women_basketball$Peak_Braking_Asymmetry_Index)
+mean(volleyball$Peak_Braking_Asymmetry_Index)
+```
+
+
+```{r}
+cor.test(football$`Time To Takeoff`, football$Peak_Landing_Asymmetry_Index)
+cor.test(men_basketball$`Time To Takeoff`, men_basketball$Peak_Landing_Asymmetry_Index)
+cor.test(women_basketball$`Time To Takeoff`, women_basketball$Peak_Landing_Asymmetry_Index)
+cor.test(volleyball$`Time To Takeoff`, volleyball$Peak_Landing_Asymmetry_Index)
+```
+
+
+```{r}
+cor.test(asb(football$``))
+
+cor.test(abs(football$`L|R Peak Braking Force`), football$Peak_Braking_Asymmetry_Index, na.rm = TRUE)
+cor.test(abs(men_basketball$`L|R Peak Braking Force`), men_basketball$Peak_Braking_Asymmetry_Index)
+cor.test(abs(women_basketball$`L|R Peak Braking Force`), women_basketball$Peak_Braking_Asymmetry_Index)
+cor.test(abs(volleyball$`L|R Peak Braking Force`), volleyball$Peak_Braking_Asymmetry_Index)
+```
+
+
+```{r}
+# Football asymmetry groups
+
+fb_less_10_perc <- football %>% filter(Peak_Landing_Asymmetry_Index < 10)
+fb_middle_perc <- football %>% filter(Peak_Landing_Asymmetry_Index >= 10, Peak_Landing_Asymmetry_Index <= 15)
+fb_greater_15_perc <- football %>% filter(Peak_Landing_Asymmetry_Index > 15)
+
+mean(fb_less_10_perc$`Jump Height`)
+mean(fb_middle_perc$`Jump Height`)
+mean(fb_greater_15_perc$`Jump Height`)
+
+mean(fb_less_10_perc$`Peak Propulsive Force`)
+mean(fb_middle_perc$`Peak Propulsive Force`)
+mean(fb_greater_15_perc$`Peak Propulsive Force`)
+
+t.test(fb_less_10_perc$`Jump Height`, fb_middle_perc$`Jump Height`)
+t.test(fb_less_10_perc$`Jump Height`, fb_greater_15_perc$`Jump Height`)
+t.test(fb_middle_perc$`Jump Height`, fb_greater_15_perc$`Jump Height`)
+```
+
+
+```{r}
+# Mens Basketball asymmetry groups
+
+mbb_less_10_perc <- men_basketball %>% filter(Peak_Landing_Asymmetry_Index < 10)
+mbb_middle_perc <- men_basketball %>% filter(Peak_Landing_Asymmetry_Index >= 10, Peak_Landing_Asymmetry_Index <= 15)
+mbb_greater_15_perc <- men_basketball %>% filter(Peak_Landing_Asymmetry_Index > 15)
+
+mean(mbb_less_10_perc$`Jump Height`)
+mean(mbb_middle_perc$`Jump Height`)
+mean(mbb_greater_15_perc$`Jump Height`)
+
+mean(mbb_less_10_perc$`Peak Propulsive Force`)
+mean(mbb_middle_perc$`Peak Propulsive Force`)
+mean(mbb_greater_15_perc$`Peak Propulsive Force`)
+```
+
+
+```{r}
+# Womens Basketball asymmetry groups
+
+wbb_less_10_perc <- women_basketball %>% filter(Peak_Landing_Asymmetry_Index < 10)
+wbb_middle_perc <- women_basketball %>% filter(Peak_Landing_Asymmetry_Index >= 10, Peak_Landing_Asymmetry_Index <= 15)
+wbb_greater_15_perc <- women_basketball %>% filter(Peak_Landing_Asymmetry_Index > 15)
+
+mean(wbb_less_10_perc$`Jump Height`)
+mean(wbb_middle_perc$`Jump Height`)
+mean(wbb_greater_15_perc$`Jump Height`)
+
+mean(wbb_less_10_perc$`Peak Propulsive Force`)
+mean(wbb_middle_perc$`Peak Propulsive Force`)
+mean(wbb_greater_15_perc$`Peak Propulsive Force`)
+```
+
+
+```{r}
+# Volleyball asymmetry groups
+
+vb_less_10_perc <- volleyball %>% filter(Peak_Landing_Asymmetry_Index < 10)
+vb_middle_perc <- volleyball %>% filter(Peak_Landing_Asymmetry_Index >= 10, Peak_Landing_Asymmetry_Index <= 15)
+vb_greater_15_perc <- volleyball %>% filter(Peak_Landing_Asymmetry_Index > 15)
+
+mean(vb_less_10_perc$`Jump Height`)
+mean(vb_middle_perc$`Jump Height`)
+mean(vb_greater_15_perc$`Jump Height`)
+
+mean(vb_less_10_perc$`Peak Propulsive Force`)
+mean(vb_middle_perc$`Peak Propulsive Force`)
+mean(vb_greater_15_perc$`Peak Propulsive Force`)
+```
+
+
 L/R Peak Propulsive Force, L/R Peak Landing Force, Landing Impulse Index, Symmetry Index (High-Low)/Total*100 (%)
 Asymmetry indexes over 10% may show increased disposition to ACL injury.
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 sel_football %>% ggplot(aes(x = `L|R Avg. Landing Force`)) + geom_histogram()
